@@ -1,0 +1,80 @@
+version: '3.8'
+services:
+
+  #PHP Service
+  api-iota:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-iota
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: api-iota
+      SERVICE_TAGS: api-iota-dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - api-iota-network
+
+  #Nginx Service
+  web-api-service:
+    image: nginx
+    container_name: web-api-service
+    restart: always
+    tty: true
+    ports:
+      - "5080:80"
+      - "5443:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - api-iota-network
+
+  #MySQL Service
+  db-api-iota:
+    image: mysql
+    container_name: db-api-iota
+    restart: always
+    tty: true
+    ports:
+      - "33069:3306"
+    environment:
+      MYSQL_DATABASE: apiiota
+      MYSQL_USER: dbapi
+      MYSQL_PASSWORD: passwordapi
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      SERVICE_TAGS: db-api-dev
+      SERVICE_NAME: mysql-api
+    volumes:
+      - db-api-iota:/var/lib/mysql/
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - api-iota-network
+
+  #PHPMyAdmin
+  db-api-iota-mgmt:
+    image: phpmyadmin
+    container_name: db-api-iota-mgmt
+    restart: always
+    ports:
+      - 5082:80
+    environment:
+      PMA_HOST: db-api-iota
+    volumes:
+      - dbmgmt-api-iota:/var/www
+    networks:
+      - api-iota-network
+
+#Docker Networks
+networks:
+  api-iota-network:
+    driver: bridge
+#Volumes
+volumes:
+  db-api-iota:
+  dbmgmt-api-iota:
+    driver: local
