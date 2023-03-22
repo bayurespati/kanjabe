@@ -56,9 +56,9 @@ services:
       - kanjabe-network
 
   #PHPMyAdmin
-  db-api-iota-mgmt:
+  kanjabe-dbmgmt:
     image: phpmyadmin
-    container_name: db-api-iota-mgmt
+    container_name: kanjabe-dbmgmt
     restart: always
     ports:
       - 8083:80
