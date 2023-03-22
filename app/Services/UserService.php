@@ -70,8 +70,7 @@ class UserService
      */
     public function delete($model)
     {
-        $model->is_active = false;
-        return $model->update();
+        return $model->delete();
     }
 
 
