@@ -2,58 +2,58 @@ version: '3.8'
 services:
 
   #PHP Service
-  api-iota:
+  kanjabe:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: api-iota
+    container_name: kanjabe
     restart: always
     tty: true
     environment:
-      SERVICE_NAME: api-iota
-      SERVICE_TAGS: api-iota-dev
+      SERVICE_NAME: kanjabe
+      SERVICE_TAGS: kanjabe-dev
     working_dir: /var/www
     volumes:
       - ./:/var/www
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
-      - api-iota-network
+      - kanjabe-network
 
   #Nginx Service
-  web-api-service:
+  kanjabe-web-service:
     image: nginx
-    container_name: web-api-service
+    container_name: kanjabe-web-service
     restart: always
     tty: true
     ports:
-      - "5080:80"
-      - "5443:443"
+      - "8082:80"
+      - "8442:443"
     volumes:
       - ./:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks:
-      - api-iota-network
+      - kanjabe-network
 
   #MySQL Service
-  db-api-iota:
+  kanjabe-db:
     image: mysql
-    container_name: db-api-iota
+    container_name: kanjabe-db
     restart: always
     tty: true
     ports:
-      - "33069:3306"
+      - "33062:3306"
     environment:
-      MYSQL_DATABASE: apiiota
-      MYSQL_USER: dbapi
-      MYSQL_PASSWORD: passwordapi
+      MYSQL_DATABASE: kanjabe
+      MYSQL_USER: kanjabe
+      MYSQL_PASSWORD: kanjabe
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
-      SERVICE_TAGS: db-api-dev
-      SERVICE_NAME: mysql-api
+      SERVICE_TAGS: db-kanjabe-dev
+      SERVICE_NAME: kanjabe-db
     volumes:
-      - db-api-iota:/var/lib/mysql/
+      - kanjabe-db:/var/lib/mysql/
       - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
-      - api-iota-network
+      - kanjabe-network
 
   #PHPMyAdmin
   db-api-iota-mgmt:
@@ -61,20 +61,20 @@ services:
     container_name: db-api-iota-mgmt
     restart: always
     ports:
-      - 5082:80
+      - 8083:80
     environment:
-      PMA_HOST: db-api-iota
+      PMA_HOST: kanjabe-db
     volumes:
-      - dbmgmt-api-iota:/var/www
+      - kanjabe-dbmgmt:/var/www
     networks:
-      - api-iota-network
+      - kanjabe-network
 
 #Docker Networks
 networks:
-  api-iota-network:
+  kanjabe-network:
     driver: bridge
 #Volumes
 volumes:
-  db-api-iota:
-  dbmgmt-api-iota:
+  kanjabe-db:
+  kanjabe-dbmgmt:
     driver: local
