@@ -177,7 +177,7 @@ class PersonalByRegionalExport implements FromCollection, WithHeadings, WithMapp
         $type = CAL_GREGORIAN;
         $month = $this->month;
         $year = $this->year;
-        $day_count = cal_days_in_month($type, $month, $year); // Get the amount of days
+        $day_count = cal_days_in_month(0, $month, $year); // Get the amount of days
 
         //loop through all days
         for ($i = 1; $i <= $day_count; $i++) {
