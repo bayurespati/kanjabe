@@ -174,7 +174,6 @@ class PersonalByRegionalExport implements FromCollection, WithHeadings, WithMapp
     private function getDayWorkInOneMonth()
     {
         $workdays = array();
-        $type = CAL_GREGORIAN;
         $month = $this->month;
         $year = $this->year;
         $day_count = cal_days_in_month(0, $month, $year); // Get the amount of days
