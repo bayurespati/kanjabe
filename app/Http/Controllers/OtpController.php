@@ -26,7 +26,7 @@ class OtpController extends Controller
 
             $this->sendMail($user, $otp->token);
 
-            return response()->json(['message' => 'Otp send successful', 'user' => $user]);
+            return response()->json(['message' => 'OTP sent successful', 'user' => $user]);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }

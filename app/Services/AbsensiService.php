@@ -240,7 +240,7 @@ class AbsensiService
             if ($request->mitra_id !== null)
                 $users->where('mitra_id', $request->mitra_id);
 
-            return $users->where('role_id', 1)
+            return $users->whereIn('role_id', [1,2])
                 ->with([
                     'absensi' => function ($absensi) use ($month, $year) {
                         $absensi->whereYear('created_at', $year)->with('detailAbsensi');
@@ -316,7 +316,7 @@ class AbsensiService
         $indexMitra = null;
         $indexRegional = null;
 
-        $users = User::where('is_active', true)->where('role_id', 1);
+        $users = User::where('is_active', true)->whereIn('role_id', [1,2]);
 
         if ($request->regional_id != null) {
             $users->where('regional_id', $request->regional_id);
@@ -436,7 +436,7 @@ class AbsensiService
         $month = $request->month == null ? Carbon::now()->month : $request->month;
         $year = $request->year == null ? Carbon::now()->year : $request->year;
 
-        $users = User::where('is_active', true)->where('role_id', 1);
+        $users = User::where('is_active', true)->whereIn('role_id', [1,2]);
 
         if ($request->regional_id != null)
             $users->where('regional_id', $request->regional_id);
@@ -613,7 +613,7 @@ class AbsensiService
         if ($user_id != null)
             $temp->where('user_id', $user_id);
 
-        $users = User::where('is_active', true)->where('role_id', 1);
+        $users = User::where('is_active', true)->whereIn('role_id', [1,2]);
 
         if ($request->regional_id != null)
             $users->where('regional_id', $request->regional_id);
@@ -635,7 +635,7 @@ class AbsensiService
     {
         $data =  NotPresent::whereDate('created_at', Carbon::yesterday())->pluck('user_id');
 
-        $users = User::whereIn('id', $data)->where('role_id', 1)->where('is_active', true);
+        $users = User::whereIn('id', $data)->whereIn('role_id', [1,2])->where('is_active', true);
 
         if ($request->regional_id != null)
             $users->where('regional_id', $request->regional_id);
