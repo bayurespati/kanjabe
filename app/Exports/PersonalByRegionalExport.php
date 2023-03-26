@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Date;
 
 class PersonalByRegionalExport implements FromCollection, WithHeadings, WithMapping
 {
@@ -176,7 +177,7 @@ class PersonalByRegionalExport implements FromCollection, WithHeadings, WithMapp
         $workdays = array();
         $month = $this->month;
         $year = $this->year;
-        $day_count = cal_days_in_month(0, $month, $year); // Get the amount of days
+        $day_count = Carbon::now()->daysInMonth; // Get the amount of days
 
         //loop through all days
         for ($i = 1; $i <= $day_count; $i++) {
