@@ -240,7 +240,7 @@ class AbsensiService
             if ($request->mitra_id !== null)
                 $users->where('mitra_id', $request->mitra_id);
 
-            return $users->whereIn('role_id', [1,2])
+            return $users->whereIn('role_id', [1, 2])
                 ->with([
                     'absensi' => function ($absensi) use ($month, $year) {
                         $absensi->whereYear('created_at', $year)->with('detailAbsensi');
@@ -316,7 +316,7 @@ class AbsensiService
         $indexMitra = null;
         $indexRegional = null;
 
-        $users = User::where('is_active', true)->whereIn('role_id', [1,2]);
+        $users = User::where('is_active', true)->whereIn('role_id', [1, 2]);
 
         if ($request->regional_id != null) {
             $users->where('regional_id', $request->regional_id);
@@ -436,7 +436,7 @@ class AbsensiService
         $month = $request->month == null ? Carbon::now()->month : $request->month;
         $year = $request->year == null ? Carbon::now()->year : $request->year;
 
-        $users = User::where('is_active', true)->whereIn('role_id', [1,2]);
+        $users = User::where('is_active', true)->whereIn('role_id', [1, 2]);
 
         if ($request->regional_id != null)
             $users->where('regional_id', $request->regional_id);
@@ -613,7 +613,7 @@ class AbsensiService
         if ($user_id != null)
             $temp->where('user_id', $user_id);
 
-        $users = User::where('is_active', true)->whereIn('role_id', [1,2]);
+        $users = User::where('is_active', true)->whereIn('role_id', [1, 2]);
 
         if ($request->regional_id != null)
             $users->where('regional_id', $request->regional_id);
@@ -635,7 +635,7 @@ class AbsensiService
     {
         $data =  NotPresent::whereDate('created_at', Carbon::yesterday())->pluck('user_id');
 
-        $users = User::whereIn('id', $data)->whereIn('role_id', [1,2])->where('is_active', true);
+        $users = User::whereIn('id', $data)->whereIn('role_id', [1, 2])->where('is_active', true);
 
         if ($request->regional_id != null)
             $users->where('regional_id', $request->regional_id);
@@ -675,7 +675,7 @@ class AbsensiService
         $is_has = $is_late = false;
 
         if ($request->is_shift == 1 || $request->is_shift == 0)
-            $is_late  = strtotime(substr($request->jam, -8)) > strtotime('08:15:00');
+            $is_late  = strtotime(substr($request->jam, -8)) > strtotime('09:00:00');
         if ($request->is_shift == 2)
             $is_late  = strtotime(substr($request->jam, -8)) > strtotime('13:15:00');
         if ($request->is_shift == 3)
@@ -693,7 +693,7 @@ class AbsensiService
      */
     private function isLate($jam, $tipe_shift)
     {
-        if (($tipe_shift == 0 || $tipe_shift == 1) && $jam > strtotime('08:15:00'))
+        if (($tipe_shift == 0 || $tipe_shift == 1) && $jam > strtotime('09:00:00'))
             return true;
 
         if ($tipe_shift == 2 && $jam > strtotime('13:15:00'))

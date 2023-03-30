@@ -163,7 +163,7 @@ class PersonalByRegionalExport implements FromCollection, WithHeadings, WithMapp
      */
     private function isLate($time, $tipe_shift)
     {
-        if (($tipe_shift == 0 || $tipe_shift == 1) && $time > strtotime('08:15:00')) return true;
+        if (($tipe_shift == 0 || $tipe_shift == 1) && $time > strtotime('09:00:00')) return true;
 
         if ($tipe_shift == 2 && $time > strtotime('13:15:00')) return true;
 

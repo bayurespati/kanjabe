@@ -81,7 +81,7 @@ class DashboardService
      */
     private function isLate($jam, $tipe_shift)
     {
-        if (($tipe_shift == 0 || $tipe_shift == 1) && $jam > strtotime('08:15:00'))
+        if (($tipe_shift == 0 || $tipe_shift == 1) && $jam > strtotime('09:00:00'))
             return true;
 
         if ($tipe_shift == 2 && $jam > strtotime('13:15:00'))
